@@ -56,13 +56,13 @@
         //headrow.insertCell().innerHTML = "Mode";
         //headrow.insertCell().innerHTML = "Length";
         var row = tablem.insertRow(0);
-        row.insertCell(0).innerHTML = 'Length: ' + message.length.toString() + ', Message: ';
+        row.insertCell(0).innerHTML = 'Length: ' + message.length.toString() + ', Message(utf-8): ';
         row.insertCell(1).innerHTML = message;
         var row = tablem.insertRow(1);
-        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString().length.toString() + ', Ciphertext:';
+        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString().length.toString() + ', Ciphertext(hex):';
         row.insertCell(1).innerHTML = encryptedMsg.ciphertext.toString();
         var row = tablem.insertRow(2);
-        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64).length.toString() + ', Base64 Ciphertext:';
+        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64).length.toString() + ', Ciphertext(Base64):';
         row.insertCell(1).innerHTML = encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64);
         var row = tablem.insertRow(3);
         row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.toString().length.toString() + ', Encrypted Message:';
