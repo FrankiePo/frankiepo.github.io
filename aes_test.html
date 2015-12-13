@@ -7,67 +7,87 @@
     <meta name="description" content="Frankie Po  : ">
 
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
-
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-cfb-min.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-ecb-min.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-ofb-min.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-ecb.js"></script>
+    
+    <!---<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-ofb.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-cfb.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/mode-ctr-min.js"></script>
 
+
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-iso97971.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-ansix923.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-iso10126.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-zeropadding.js"></script>
+    
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-ansix923.js"></script>-->
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/pad-nopadding.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+    <style>
+    table, td {
+        border: 1px solid black;
+        width: 100%;
+        text-align: left;
+    }
+    </style>
+    <!--<link rel="stylesheet" type="text/css" href="stylesheets/style.css">-->
     <title>Test AES length</title>
   </head>
 
   <body>
-    <h2>Test different modes:</h2>
+    <h1>AES Test</h1>
+    <br>
+    <h2>Test phases:</h2>
     <table id="output_modes"></table>
-    <h2>Test different paddings:</h2>
-    <table id="output_paddings"></table>
     <script>
         var message = '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000';
         var keyString = '8914014603208505383835449615862032396298230312463794048875383939165708770313';
-        var rawIV = atob("IYkyGxYaNgHpnZWgwILMalVFmLWFgTCHCZL9263NOcfSo5lBjAzOZAtF5bF++R0Bi+9c9E+p3VEr/xvj4oABtRWVJ2wlWzLbYC2rKFk5iapFhb7uZCUpO4w4Su3a5QFa2vInjYueziRoqySZd/DpstMJ8rsJ94VGizFFFZ1l0sw1ax+wfBAv5+wHs/hlnHi/ea66KBO3rgXKahvV28h+4bh5etc8RCrmiiNbfg6Oj0jQJDjdYIdW8T9YPOI9E1hih8lbfRnMWcOFJgYekfLpoy5LI525UGnlM46J1k6ekLqsn9FqvbiOOoLgqa4YqBm1i9P0ePyjkME+t+RiL8xXX+ItgOYr9G7kM64wlTJPCW8B/crmUdmGzQNC/hD/u/8wfHBS2f8u6OtQMG/+Kpk1oju8lcUZGI/4S8A6/OuktvQr2zgnbs2aADMrM37Oait/pJ3G73S7NwVT8EaK+X43c0C/fUvW2/bD/rqCNpAh9WQlz4Cj6JHwjbmwuind6aCimF1tHjXuR9FXu+g17sPT4ZkKZ6aeBG+m170XdCGn2hVM0wH1rh3VeCG2u/JFqfuGKGSoqeHeNY/icu9pEhtZDzHd7aPoaMXcWvXC9PjooBf7GM1EPacSdnon1kBobjtKSt1l15DjO5TMrJoX7VO7GotQwo+uI/u5Kop01hBXxyxyggl1/8N0ESohPJoqLDrIwvbGK5kW4B49FVPnx9CMvjZDdSsoxPAh+hx6SPe8Hj0Nx4bRs06cbtOkte/V8QSYIqjiJDleEqPrdiKlvgToZz9L29ZR/3Ln65qU1sq7q9c0SEYxIopV7TdTjFS7y76zDPFZkhzc3DjfLtJo/M1hdtt648APcZdmAIgWH6fh3eJZ0qbiPh8RStYH7I2COmnlMw4+t/B5mlhYVSgwPK2Ir736Mh+P9Bw0fF8r9Ghhs4AJzpU0RiK9d1tCsrLfK/hSRwTXhtsSB6eDWEGkO7oeEIz43mgn0sv3SrA9JNHzYkg=");
-        var IV = btoa(rawIV.substring(0,16));
+        var IV = CryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f');
         var encryptedMsg;
         var decryptedMsg;
         /* You can ennable decrypted messages output */
         var encryptDebug = true;
-        var decryptDebug = false;
-        var modes = ['CBC','CFB', 'CTR', 'OFB', 'ECB'];
-        var paddings = ['Pkcs7', 'Iso10126', 'AnsiX923', 'Iso97971', 'ZeroPadding', 'NoPadding'];
-
+        var decryptDebug = true;
+        // var modes = ['CBC','CFB', 'CTR', 'OFB', 'ECB'];
+        // var paddings = ['Pkcs7', 'Iso10126', 'AnsiX923', 'Iso97971', 'ZeroPadding', 'NoPadding'];
+        encryptedMsg = CryptoJS.AES.encrypt(message, keyString,
+                { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.NoPadding, iv: IV });
         var tablem = document.getElementById("output_modes");
         /* Test different modes */
         var header = tablem.createTHead();
-        var headrow = header.insertRow();
-        headrow.insertCell().innerHTML = "Mode";
-        headrow.insertCell().innerHTML = "Length";
-        if (encryptDebug) headrow.insertCell().innerHTML = "Encrypted";
-        if (decryptDebug) headrow.insertCell().innerHTML = "Decrypted";
-        for (var i = 0; i < modes.length; i++)
+        //var headrow = header.insertRow();
+        //headrow.insertCell().innerHTML = "Mode";
+        //headrow.insertCell().innerHTML = "Length";
+        var row = tablem.insertRow(0);
+        row.insertCell(0).innerHTML = 'Length: ' + message.length.toString() + ', Message: ';
+        row.insertCell(1).innerHTML = message;
+        var row = tablem.insertRow(1);
+        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString().length.toString() + ', Ciphertext:';
+        row.insertCell(1).innerHTML = encryptedMsg.ciphertext.toString();
+        var row = tablem.insertRow(2);
+        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64).length.toString() + ', Base64 Ciphertext:';
+        row.insertCell(1).innerHTML = encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64);
+        var row = tablem.insertRow(3);
+        row.insertCell(0).innerHTML = 'Length: ' + encryptedMsg.toString().length.toString() + ', Encrypted Message:';
+        row.insertCell(1).innerHTML = encryptedMsg.toString();
+        //if (encryptDebug) headrow.insertCell().innerHTML = "Encrypted";
+        //if (decryptDebug) headrow.insertCell().innerHTML = "Decrypted";
+        /*for (var i = 0; i < 20; i++)
         {
             encryptedMsg = CryptoJS.AES.encrypt(message, keyString,
-                { mode: CryptoJS.mode[modes[i]], padding: CryptoJS.pad.Pkcs7, iv: IV });
+                { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.NoPadding, iv: IV });
             var row = tablem.insertRow();
-            row.insertCell().innerHTML = modes[i];
-            row.insertCell().innerHTML = encryptedMsg.toString().length;
+            // row.insertCell().innerHTML = modes[i];
+            row.insertCell().innerHTML = encryptedMsg.toString();
             if (encryptDebug) {
-                row.insertCell().innerHTML = encryptedMsg.toString();
-                //console.log(encryptedMsg.toString().length + ':' + encryptedMsg.toString());
+                row.insertCell().innerHTML = encryptedMsg.ciphertext.toString(CryptoJS.enc.Base64);
+                // console.log(encryptedMsg);
             }
             if (decryptDebug) {
-                decryptedMsg = CryptoJS.AES.decrypt(encryptedMsg.toString(), keyString,
-                    { mode: CryptoJS.mode[modes[i]], padding: CryptoJS.pad.Pkcs7, iv: IV });
+                decryptedMsg = CryptoJS.AES.decrypt(encryptedMsg.ciphertext, keyString,
+                    { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.NoPadding, iv: IV });
                 row.insertCell().innerHTML = decryptedMsg.toString(CryptoJS.enc.Utf8);
-                //console.log(decryptedMsg.toString(CryptoJS.enc.Utf8).length + ':' + decryptedMsg.toString(CryptoJS.enc.Utf8));
+                // sconsole.log(decryptedMsg.toString(CryptoJS.enc.Utf8).length + ':' + decryptedMsg.toString(CryptoJS.enc.Utf8));
             }
-        }
-
+        }*/
+/*
         var tablep = document.getElementById("output_paddings");
         var header = tablep.createTHead();
         var headrow = header.insertRow();
@@ -75,12 +95,12 @@
         headrow.insertCell().innerHTML = "Length";
         if (encryptDebug) headrow.insertCell().innerHTML = "Encrypted";
         if (decryptDebug) headrow.insertCell().innerHTML = "Decrypted";
-        /* Test different paddings */
+        // Test different paddings
         for (var i = 0; i < modes.length; i++)
         {
             encryptedMsg = CryptoJS.AES.encrypt(message, keyString,
                 { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad[paddings[i]], iv: IV });
-            var row = tablep.insertRow();
+            var row = tablep.insertRow(i+1);
             row.insertCell().innerHTML = paddings[i];
             row.insertCell().innerHTML = encryptedMsg.toString().length;
             if (encryptDebug) {
@@ -93,7 +113,7 @@
                 row.insertCell().innerHTML = decryptedMsg.toString(CryptoJS.enc.Utf8);
                 //console.log(decryptedMsg.toString(CryptoJS.enc.Utf8).length + ':' + decryptedMsg.toString(CryptoJS.enc.Utf8));
             }
-        }
+        }*/
     </script>
   </body>
 </html>
