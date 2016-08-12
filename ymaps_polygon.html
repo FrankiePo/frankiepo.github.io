@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://api-maps.yandex.ru/2.1/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        var polygon;
+        var coords;
+
+        function init() {
+            var myMap = new ymaps.Map(document.getElementById("map"), {
+                center: [55.771884, 37.548756],
+                zoom: 15
+            });
+            $('#add').click(function() {
+                $('#update').attr('disabled', false);
+                $('#del').attr('disabled', false);
+                $('#add').attr('disabled', true);
+                coords = JSON.parse(document.getElementById('coordid').value);
+                // console.log(coords);
+                polygon = new ymaps.Polygon(
+                    // Координаты внешнего контура.
+                    coords, {
+                        // [[[55.771884, 37.548756]]], {
+                        hintContent: "Многоугольник"
+                    }, {
+                        fillColor: '#6699ff',
+                        // Делаем полигон прозрачным для событий карты.
+                        interactivityModel: 'default#transparent',
+                        strokeWidth: 8,
+                        opacity: 0.5
+                    });
+                myMap.geoObjects.add(polygon);
+                myMap.setBounds(polygon.geometry.getBounds());
+                polygon.editor.startDrawing();
+            });
+            // Обработка нажатия на кнопку Завершить редактирование
+            $('#update').click(function() {
+                polygon.editor.stopEditing();
+                document.getElementById('coordid').value = JSON.stringify(polygon.geometry.getCoordinates());
+                $('#update').attr('disabled', true);
+            });
+            // Обработка нажатия на кнопку Удалить
+            $('#del').click(function() {
+                myMap.geoObjects.remove(polygon);
+                $('#geometry').html('');
+                $('#del').attr('disabled', true);
+                $('#add').attr('disabled', false);
+            });
+        }
+    </script>
+    <style type="text/css">
+        html,body,.col-md-12,.row,.container-fluid{
+            height:100%;
+        }
+        .row > div {
+            height:100%;
+        }
+        .row {
+
+        }
+        /* to make columns visible */
+        .row .col-sm-2 {
+            height: auto;
+            background-color:#eee;
+        }
+        textarea {
+            resize: vertical;
+            max-height: 100%;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            position: bottom;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3">
+                    <div class="col-sm-12">
+                        <h4>Координаты:</h4>
+                        <textarea class="form-control" rows="10" id="coordid">[[[55.765256, 37.540173],[55.771884, 37.548756],[55.773771, 37.555708],[55.790091, 37.575981],[55.790459, 37.642428],[55.791892, 37.649638],[55.778134, 37.669635],[55.775376, 37.677532],[55.769872, 37.686147],[55.747102, 37.694840],[55.732317, 37.694395],[55.724937, 37.706840],[55.706380, 37.653540],[55.708475, 37.617031],[55.703030, 37.609563],[55.724618, 37.562663],[55.736647, 37.545768],[55.749267, 37.537014],[55.756994, 37.536326],[55.761622, 37.537098]]]</textarea>
+                    </div>
+                    <div class="col-sm-12">
+                        <h4>Управление полигоном</h4>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary btn-block" id="add">Создать</button>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary btn-block" id="update" disabled=true>Завершить</button>
+                    </div>
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary btn-block" id="del" disabled=true>Удалить</button>
+                    </div>
+            </div>
+            <div class="col-sm-9">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
